@@ -3,23 +3,23 @@ import streamlit as st
 import pandas as pd
 import pickle
 
-# ==================================
+# =====================
 # LOAD MODEL
-# ==================================
+# =====================
 with open('linear_regression_model.pkl', 'rb') as file:
     model = pickle.load(file)
 
-# ==================================
+# =====================
 # PAGE CONFIG
-# ==================================
+# =====================
 st.set_page_config(
-    page_title="Prediksi Harga Rumah Ames - Baby Blue Edition",
+    page_title="Prediksi Harga Rumah Ames - Baby Blue Box Edition",
     layout="wide"
 )
 
-# ==================================
+# =====================
 # ULTRA BABY BLUE CSS
-# ==================================
+# =====================
 st.markdown(\"""
 <style>
 
@@ -32,15 +32,15 @@ html, body, .stApp {
     color: #0f1c2d !important;
 }
 
-/* Glass Card Baby Blue */
+/* Glass Card */
 .glass-card {
-    background: rgba(255, 255, 255, 0.45);
+    background: rgba(255, 255, 255, 0.50);
     backdrop-filter: blur(18px);
     -webkit-backdrop-filter: blur(18px);
-    border-radius: 22px;
-    padding: 28px;
-    box-shadow: 0 10px 35px rgba(0,0,0,0.15);
-    border: 1px solid rgba(255,255,255,0.5);
+    border-radius: 20px;
+    padding: 22px 30px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+    border: 1px solid rgba(255,255,255,0.4);
 }
 
 /* Header Title */
@@ -51,19 +51,16 @@ html, body, .stApp {
     background: linear-gradient(90deg, #0088ff, #00b7ff, #57d1ff);
     -webkit-background-clip: text;
     color: transparent;
-    text-shadow: 0px 0px 15px rgba(255,255,255,0.7);
-    animation: fadeInDown 1.2s ease;
+    margin-bottom: 5px;
 }
-
-/* Subtitle */
 .sub-title {
     font-size: 20px;
     text-align: center;
     opacity: 0.75;
-    margin-bottom: 25px;
+    margin-bottom: 30px;
 }
 
-/* Prediction Card – Baby Blue Neon */
+/* Prediction Card */
 .pred-card {
     padding: 35px;
     border-radius: 22px;
@@ -81,48 +78,44 @@ html, body, .stApp {
     100% { box-shadow: 0 0 28px rgba(0,200,255,0.8); }
 }
 
-/* Buttons */
+/* Button */
 .stButton>button {
     background: linear-gradient(135deg, #0099ff, #3ac7ff);
     color: white;
-    padding: 12px 28px;
-    border-radius: 14px;
+    padding: 14px 30px;
+    border-radius: 12px;
     border: none;
     font-size: 20px;
     font-weight: 700;
-    transition: 0.25s ease;
     box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+    transition: 0.25s ease;
 }
 .stButton>button:hover {
     transform: scale(1.06);
-    box-shadow: 0 6px 25px rgba(0,153,255,0.55);
+    box-shadow: 0 8px 25px rgba(0,153,255,0.55);
 }
 
-/* Slider BLUE instead of orange */
-.stSlider > div > div > div > div {
-    background: #0099ff !important;
+/* Number input customization */
+input[type=number] {
+    border-radius: 10px !important;
+    border: 2px solid #a4d9ff !important;
+    padding: 8px !important;
+    background: rgba(255,255,255,0.7) !important;
 }
-.stSlider > div > div > div {
-    background: #a0d7ff !important;
-}
-
-/* Fade Animations */
-@keyframes fadeInDown { from {opacity:0; transform:translateY(-20px);} to {opacity:1; transform:translateY(0);} }
 
 </style>
 \""", unsafe_allow_html=True)
 
-
-# ==================================
+# =====================
 # HEADER
-# ==================================
+# =====================
 st.markdown('<div class="main-title">🏠 Prediksi Harga Rumah – Baby Blue Edition</div>', unsafe_allow_html=True)
-st.markdown('<div class="sub-title">Super bersih, modern, dan aesthetic.</div>', unsafe_allow_html=True)
+st.markdown('<div class="sub-title">Super clean, modern, premium input style.</div>', unsafe_allow_html=True)
 
 
-# ==================================
-# NEIGHBORHOOD
-# ==================================
+# =====================
+# NEIGHBORHOOD LIST
+# =====================
 neigh_map = {
     'NAmes': 'North Ames','CollgCr': 'College Creek','OldTown': 'Old Town',
     'Edwards': 'Edwards','Somerst': 'Somerset','Gilbert': 'Gilbert',
@@ -134,31 +127,29 @@ neigh_map = {
     'BrDale': 'Briardale','NPkVill': 'Northpark Villa','Veenker': 'Veenker',
     'Blueste': 'Bluestem','Greens': 'Greens','GrnHill': 'Green Hill','Landmrk': 'Landmark'
 }
-
 neigh_keys = list(neigh_map.keys())
 
-
-# ==================================
-# INPUT SECTION — BABY BLUE CARD
-# ==================================
+# =====================
+# INPUT SECTION (BOX VERSION)
+# =====================
 st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
-st.subheader("⚙️ Input Parameter")
+st.subheader("⚙️ Input Parameter (Box Inputs)")
 
 col1, col2, col3 = st.columns(3)
 
 with col1:
-    overall_qual = st.slider("🏅 Overall Quality", 1, 10, 5)
-    garage_cars = st.slider("🚗 Garage Cars", 0, 4, 1)
-    full_bath = st.slider("🛁 Full Bath", 0, 4, 1)
+    overall_qual = st.number_input("🏅 Overall Quality", 1, 10, 5)
+    garage_cars = st.number_input("🚗 Garage Cars", 0, 4, 1)
+    full_bath = st.number_input("🛁 Full Bath", 0, 4, 1)
 
 with col2:
-    gr_liv_area = st.slider("📏 Gr Liv Area", 300, 4000, 1500)
-    garage_area = st.slider("📐 Garage Area", 0, 1200, 300)
-    tot_rooms = st.slider("🚪 TotRms AbvGrd", 2, 14, 6)
+    gr_liv_area = st.number_input("📏 Gr Liv Area", 300, 4000, 1500)
+    garage_area = st.number_input("📐 Garage Area", 0, 1200, 300)
+    tot_rooms = st.number_input("🚪 TotRms AbvGrd", 2, 14, 6)
 
 with col3:
-    total_bsmt_sf = st.slider("⬇️ Total Bsmt SF", 0, 3000, 800)
-    first_flr_sf = st.slider("🏠 1st Flr SF", 200, 3000, 1000)
+    total_bsmt_sf = st.number_input("⬇️ Total Bsmt SF", 0, 3000, 800)
+    first_flr_sf = st.number_input("🏠 1st Flr SF", 200, 3000, 1000)
     month_name = st.selectbox("📅 Month Sold",
         ['January','February','March','April','May','June','July','August','September','October','November','December'])
 
@@ -167,7 +158,7 @@ neighborhood = st.selectbox("📍 Neighborhood", neigh_keys, format_func=lambda 
 st.markdown("</div>", unsafe_allow_html=True)
 
 
-# Convert to DF
+# CREATE DF (not displayed)
 df_input = pd.DataFrame({
     'Overall Qual': [overall_qual],
     'Gr Liv Area': [gr_liv_area],
@@ -181,27 +172,17 @@ df_input = pd.DataFrame({
     'Neighborhood': [neighborhood]
 })
 
-
-# ==================================
-# INPUT TABLE CARD
-# ==================================
-st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
-st.subheader("📋 Input Pengguna")
-st.dataframe(df_input, use_container_width=True)
-st.markdown("</div>", unsafe_allow_html=True)
-
-
-# ==================================
+# =====================
 # ENCODING
-# ==================================
+# =====================
 training_columns = list(model.feature_names_in_)
 final_input = pd.DataFrame(columns=training_columns)
 final_input.loc[0] = 0
 
-num_cols = ['Overall Qual','Gr Liv Area','Garage Cars','Garage Area',
-            'Total Bsmt SF','1st Flr SF','Full Bath','TotRms AbvGrd']
+numeric_cols = ['Overall Qual','Gr Liv Area','Garage Cars','Garage Area',
+                'Total Bsmt SF','1st Flr SF','Full Bath','TotRms AbvGrd']
 
-for col in num_cols:
+for col in numeric_cols:
     final_input.loc[0, col] = df_input[col][0]
 
 for col in training_columns:
@@ -210,9 +191,9 @@ for col in training_columns:
     if col.startswith("Neighborhood_"):
         final_input.loc[0, col] = (col == f"Neighborhood_{df_input['Neighborhood'][0]}")
 
-# ==================================
+# =====================
 # PREDIKSI
-# ==================================
+# =====================
 st.header("🔮 Prediksi Harga Rumah")
 
 if st.button("🔵 Prediksi Harga"):
