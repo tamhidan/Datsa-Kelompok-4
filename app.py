@@ -176,7 +176,7 @@ input[type=number]:focus, select:focus {
 # HEADER
 # ==================================
 st.markdown('<div class="main-title">🏠 Prediksi Harga Rumah</div>', unsafe_allow_html=True)
-st.markdown('<div class="sub-title">Baby Blue PRO • Animasi Premium • UI Level Aesthetic</div>', unsafe_allow_html=True)
+st.markdown('<div class="sub-title">Aesthetic UI • Premium • Next Level Prediction</div>', unsafe_allow_html=True)
 
 
 # ==================================
@@ -266,7 +266,7 @@ st.header("🔮 Hasil Prediksi")
 if st.button("✨ Hitung Prediksi Harga"):
     pred = model.predict(final_input)[0]
     st.markdown(
-        f"<div class='pred-card'>💙 Harga Rumah Diprediksi:<br><b>${pred:,.2f}</b></div>",
+        f"<div class='pred-card'>Harga Rumah Diprediksi:<br><b>${pred:,.2f}</b></div>",
         unsafe_allow_html=True
     )
 """
